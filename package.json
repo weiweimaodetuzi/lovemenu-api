@@ -1,0 +1,22 @@
+{
+  "name": "lovemenu-api-supabase",
+  "version": "1.0.0",
+  "description": "家庭点菜小程序API - Vercel + Supabase",
+  "main": "index.js",
+  "scripts": {
+    "dev": "vercel dev",
+    "build": "echo 'No build step required'",
+    "deploy": "vercel --prod"
+  },
+  "dependencies": {
+    "@supabase/supabase-js": "^2.38.0"
+  },
+  "keywords": [
+    "api",
+    "miniprogram",
+    "supabase",
+    "vercel"
+  ],
+  "author": "开发团队",
+  "license": "MIT"
+}
