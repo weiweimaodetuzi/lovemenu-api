@@ -7,14 +7,24 @@ const supabase = createClient(
 )
 
 module.exports = async function handler(req, res) {
-  // 设置CORS头
-  res.setHeader('Access-Control-Allow-Origin', '*')
-  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS')
-  res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization')
+  try {
+    // 设置CORS头
+    res.setHeader('Access-Control-Allow-Origin', '*')
+    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS')
+    res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization')
 
-  if (req.method === 'OPTIONS') {
-    return res.status(200).end()
-  }
+    if (req.method === 'OPTIONS') {
+      return res.status(200).end()
+    }
+
+    // 检查环境变量
+    if (!process.env.SUPABASE_URL || !process.env.SUPABASE_ANON_KEY) {
+      console.error('Missing Supabase environment variables')
+      return res.status(500).json({ 
+        success: false, 
+        error: 'Server configuration error' 
+      })
+    }
 
   const { method, body, query } = req
 
@@ -247,6 +257,13 @@ async function deleteDish(req, res) {
     return res.status(500).json({ 
       success: false, 
       error: error.message 
+    })
+  }
+  } catch (error) {
+    console.error('API处理错误:', error)
+    return res.status(500).json({ 
+      success: false, 
+      error: 'Internal server error' 
     })
   }
 }
